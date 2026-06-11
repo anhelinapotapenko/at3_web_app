@@ -50,7 +50,7 @@ export default function RootLayout({ children }) {
               <Link className="navbar-item" href="/users">
                 Users
               </Link>
-              <Link className="navbar-item" href="/about">
+              <Link className="navbar-item" href="/projects">
                 Projects
               </Link>
               <Link className="navbar-item" href="/about">
