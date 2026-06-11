@@ -11,26 +11,24 @@ const headers = {
   "X-Integration-Name": "NMT-204782",
   "Workspaces-Identifier": "tenant-pm-009",
 };
-// project details page component
-export default async function ProjectsDetailsPage({ params }) {
-  // get the project id from url
+
+export default async function ProjectDetailsPage({ params }) {
   const { id } = await params;
-  // fetch all projects from the API
+
   const response = await fetch(`${BASE_URL}/projects`, {
     headers,
-    // fetch fresh data insted of using cache
     cache: "no-store",
   });
-  // convert JSON response into JavaScript
+
   const projects = await response.json();
-  // fint the selected project by id in url
+
   const project = projects.find((project) => project.id === id);
 
-  // if project cant be find - error
   if (!project) {
     return (
       <>
         <h1 className="title">Project not found</h1>
+
         <Link className="button is-light" href="/projects">
           Back
         </Link>
@@ -60,7 +58,11 @@ export default async function ProjectsDetailsPage({ params }) {
         </p>
       </div>
 
-      <Link className="button is-light" href="/projects">
+      <Link className="button is-warning" href={`/projects/${project.id}/edit`}>
+        Edit
+      </Link>
+
+      <Link className="button is-light ml-2" href="/projects">
         Back
       </Link>
     </>

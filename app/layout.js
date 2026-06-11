@@ -53,17 +53,17 @@ export default function RootLayout({ children }) {
               <Link className="navbar-item" href="/projects">
                 Projects
               </Link>
-              <Link className="navbar-item" href="/about">
+              <Link className="navbar-item" href="/tasks">
                 Tasks
               </Link>
-              <Link className="navbar-item" href="/about">
+              <Link className="navbar-item" href="/milestones">
                 Milestones
               </Link>
-              <Link className="navbar-item" href="/about">
+              <Link className="navbar-item" href="/comments">
                 Comments
               </Link>
-              <Link className="navbar-item" href="/about">
-                Checklist
+              <Link className="navbar-item" href="/checklists">
+                Checklists
               </Link>
             </div>
           </div>
