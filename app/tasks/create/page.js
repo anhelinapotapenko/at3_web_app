@@ -1,12 +1,12 @@
-// projects/create/page.js
+// tasks/create/page.js
 
-import ProjectForm from "../../components/ProjectForm";
+import TaskForm from "../../components/TaskForm";
 
-export default function CreateProjectPage() {
+export default function CreateTaskPage() {
   return (
     <>
-      <h1 className="title">Create Project</h1>
-      <ProjectForm />
+      <h1 className="title">Create Task</h1>
+      <TaskForm />
     </>
   );
 }

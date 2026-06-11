@@ -35,6 +35,15 @@ export default function TaskForm({ taskId }) {
   // store task description
   const [description, setDescription] = useState("");
 
+  // store task status
+  const [status, setStatus] = useState("todo");
+
+  // to store project data
+  const [projects, setProjects] = useState([]);
+
+  // to store project by id
+  const [projectId, setProjectId] = useState("");
+
   // store error messages
   const [error, setError] = useState("");
 
@@ -50,26 +59,51 @@ export default function TaskForm({ taskId }) {
       }
 
       // fetch all tasks from API
-      const response = await fetch(`${BASE_URL}/task`, {
+      const response = await fetch(`${BASE_URL}/tasks`, {
         method: "GET",
         headers: headers,
       });
 
-      // convert json  into js
+      // convert json into js
       const tasks = await response.json();
 
-      // find the selected taskt by id from the URL
+      // find the selected task by id from the URL
       const task = tasks.find((task) => task.id === taskId);
 
       // pre filled form
       if (task) {
         setName(task.name || "");
-        setDescription(ptask.description || "");
+        setDescription(task.description || "");
+
+        // pre fill status
+        setStatus(task.status || "todo");
+
+        // pre fill selected project
+        setProjectId(task.project?.id || "");
       }
     }
 
     getTask();
   }, [taskId]);
+
+  // load projectdata for edit/create form
+  useEffect(() => {
+    async function getProjects() {
+      // fetch all projects from API
+      const response = await fetch(`${BASE_URL}/projects`, {
+        method: "GET",
+        headers: headers,
+      });
+
+      // convert json into js
+      const data = await response.json();
+
+      // save projects into state
+      setProjects(data);
+    }
+
+    getProjects();
+  }, []);
 
   // run when the user submits the form
   const handleSubmit = async (event) => {
@@ -78,7 +112,8 @@ export default function TaskForm({ taskId }) {
 
     // errors message
     setError("");
-    // success mesage
+
+    // success message
     setSuccess("");
 
     // validate task name
@@ -90,6 +125,12 @@ export default function TaskForm({ taskId }) {
     // validate description
     if (description.trim() === "") {
       setError("Add task description");
+      return;
+    }
+
+    // validate project selection
+    if (projectId === "") {
+      setError("Select project");
       return;
     }
 
@@ -108,8 +149,17 @@ export default function TaskForm({ taskId }) {
       method: method,
       headers: headers,
       body: JSON.stringify({
+        // send task name
         name: name,
+
+        // send task description
         description: description,
+
+        // send task status
+        status: status,
+
+        // send selected project id
+        project_id: projectId,
       }),
     });
 
@@ -121,6 +171,7 @@ export default function TaskForm({ taskId }) {
           ? "Task was updated successfully!"
           : "Task was created successfully!",
       );
+
       // redirect back to tasks page after 1.5 seconds
       setTimeout(() => {
         router.push("/tasks");
@@ -128,8 +179,10 @@ export default function TaskForm({ taskId }) {
     } else {
       // convert error response into JavaScript
       const data = await response.json();
+
       // display error in console for testing
       console.log("Task form error:", data);
+
       // show error message on page
       setError(data.message || "Task was not saved");
     }
@@ -139,8 +192,10 @@ export default function TaskForm({ taskId }) {
     <form className="box" onSubmit={handleSubmit}>
       {/* error message */}
       {error && <p className="notification is-danger">{error}</p>}
+
       {/* success message */}
       {success && <p className="notification is-success">{success}</p>}
+
       {/* task name field */}
       <div className="field">
         <label className="label">Enter Task Name</label>
@@ -153,6 +208,45 @@ export default function TaskForm({ taskId }) {
             value={name}
             onChange={(event) => setName(event.target.value)}
           />
+        </div>
+      </div>
+
+      {/* project field */}
+      <div className="field">
+        <label className="label">Project</label>
+
+        <div className="control">
+          <div className="select is-fullwidth">
+            <select
+              value={projectId}
+              onChange={(event) => setProjectId(event.target.value)}
+            >
+              <option value="">Select project</option>
+
+              {projects.map((project) => (
+                <option key={project.id} value={project.id}>
+                  {project.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </div>
+
+      {/* task status field */}
+      <div className="field">
+        <label className="label">Status</label>
+
+        <div className="control">
+          <div className="select is-fullwidth">
+            <select
+              value={status}
+              onChange={(event) => setStatus(event.target.value)}
+            >
+              <option value="todo">todo</option>
+              <option value="done">done</option>
+            </select>
+          </div>
         </div>
       </div>
 

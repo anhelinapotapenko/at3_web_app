@@ -13,17 +13,18 @@ const headers = {
 };
 
 export default async function ProjectDetailsPage({ params }) {
+  // get the project id from the url
   const { id } = await params;
-
+  // fetch all projects from the API
   const response = await fetch(`${BASE_URL}/projects`, {
     headers,
     cache: "no-store",
   });
-
+  // convert json response into js
   const projects = await response.json();
-
+  // find the project by id in url
   const project = projects.find((project) => project.id === id);
-
+  // display error if the project cannot be found
   if (!project) {
     return (
       <>

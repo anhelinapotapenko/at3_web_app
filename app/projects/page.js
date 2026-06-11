@@ -17,14 +17,14 @@ const headers = {
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState([]);
-
+  // load projects when page opens
   useEffect(() => {
     async function getProjects() {
       const response = await fetch(`${BASE_URL}/projects`, {
         method: "GET",
         headers: headers,
       });
-
+      // convert json response into js
       const data = await response.json();
 
       setProjects(data);
@@ -32,19 +32,21 @@ export default function ProjectsPage() {
 
     getProjects();
   }, []);
-
+  // function to delete
   const deleteProject = async (id) => {
+    // to confrim
     const confirmed = confirm("Do you want to delete this project?");
 
+    // stop if user clicks cancel
     if (!confirmed) {
       return;
     }
-
+    // send DELETE request
     const response = await fetch(`${BASE_URL}/projects/${id}`, {
       method: "DELETE",
       headers: headers,
     });
-
+    // remove deleted task from the page
     if (response.ok) {
       setProjects(projects.filter((project) => project.id !== id));
     } else {

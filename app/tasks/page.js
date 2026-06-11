@@ -1,4 +1,4 @@
-// projects/page.js
+// tasks/page.js
 
 "use client";
 
@@ -15,71 +15,74 @@ const headers = {
   "Workspaces-Identifier": "tenant-pm-009",
 };
 
-export default function ProjectsPage() {
-  const [projects, setProjects] = useState([]);
-
+export default function TasksPage() {
+  const [tasks, setTasks] = useState([]);
+  // load tasks when page opens
   useEffect(() => {
-    async function getProjects() {
-      const response = await fetch(`${BASE_URL}/projects`, {
+    async function getTasks() {
+      const response = await fetch(`${BASE_URL}/tasks`, {
         method: "GET",
         headers: headers,
       });
-
+      // convert json response into js
       const data = await response.json();
 
-      setProjects(data);
+      setTasks(data);
     }
 
-    getProjects();
+    getTasks();
   }, []);
-
-  const deleteProject = async (id) => {
-    const confirmed = confirm("Do you want to delete this project?");
-
+  // function to delete a task
+  const deleteTask = async (id) => {
+    // to confirm
+    const confirmed = confirm("Do you want to delete this task?");
+    /// stop if user clicks cancel
     if (!confirmed) {
       return;
     }
-
-    const response = await fetch(`${BASE_URL}/projects/${id}`, {
+    // send DELETE request
+    const response = await fetch(`${BASE_URL}/tasks/${id}`, {
       method: "DELETE",
       headers: headers,
     });
-
+    // remove deleted task from the page
     if (response.ok) {
-      setProjects(projects.filter((project) => project.id !== id));
+      setTasks(tasks.filter((task) => task.id !== id));
     } else {
-      alert("Project was not deleted");
+      alert("Task was not deleted");
     }
   };
 
   return (
     <div className="container mt-4">
-      <h1 className="title">Projects</h1>
+      <h1 className="title">Tasks</h1>
 
-      <Link href="/projects/create" className="button is-success mb-4">
-        Create Project
+      <Link href="/tasks/create" className="button is-success mb-4">
+        Create Task
       </Link>
 
-      {projects.map((project) => (
-        <div key={project.id} className="box">
+      {tasks.map((task) => (
+        <div key={task.id} className="box">
           <p>
-            <strong>Title:</strong> {project.name}
+            <strong>ID:</strong> {task.id}
           </p>
 
           <p>
-            <strong>ID:</strong> {project.id}
+            <strong>Name:</strong> {task.name}
           </p>
-
           <p>
-            <strong>Description:</strong> {project.description}
+            <strong>Project Name:</strong> {task.project.name}
+          </p>
+          <p>
+            <strong>Description:</strong> {task.description}
           </p>
           <br></br>
-          <Link href={`/projects/${project.id}`} className="button is-primary">
+          <Link href={`/tasks/${task.id}`} className="button is-primary">
             View
           </Link>
 
           <Link
-            href={`/projects/${project.id}/edit`}
+            href={`/tasks/${task.id}/edit`}
             className="button is-warning ml-2"
           >
             Edit
@@ -87,7 +90,7 @@ export default function ProjectsPage() {
 
           <button
             className="button is-danger ml-2"
-            onClick={() => deleteProject(project.id)}
+            onClick={() => deleteTask(task.id)}
           >
             Delete
           </button>

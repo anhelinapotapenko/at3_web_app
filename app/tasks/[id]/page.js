@@ -1,4 +1,4 @@
-// projects/[id]/page.js
+// tasks/[id]/page.js
 
 import Link from "next/link";
 
@@ -12,24 +12,25 @@ const headers = {
   "Workspaces-Identifier": "tenant-pm-009",
 };
 
-export default async function ProjectDetailsPage({ params }) {
+export default async function TaskDetailsPage({ params }) {
+  // get the project id from the url
   const { id } = await params;
-
-  const response = await fetch(`${BASE_URL}/projects`, {
+  // fetch all projects from the API
+  const response = await fetch(`${BASE_URL}/tasks`, {
     headers,
     cache: "no-store",
   });
-
-  const projects = await response.json();
-
-  const project = projects.find((project) => project.id === id);
-
-  if (!project) {
+  // convert json response into js
+  const tasks = await response.json();
+  // find the project by id in url
+  const task = tasks.find((task) => task.id === id);
+  // display error if the project cannot be found
+  if (!task) {
     return (
       <>
-        <h1 className="title">Project not found</h1>
+        <h1 className="title">Task not found</h1>
 
-        <Link className="button is-light" href="/projects">
+        <Link className="button is-light" href="/tasks">
           Back
         </Link>
       </>
@@ -38,31 +39,53 @@ export default async function ProjectDetailsPage({ params }) {
 
   return (
     <>
-      <h1 className="title">Project Details</h1>
+      <h1 className="title">Task Details</h1>
 
       <div className="box">
         <p>
-          <strong>ID:</strong> {project.id}
+          <strong>ID:</strong> {task.id}
         </p>
 
         <p>
-          <strong>Name:</strong> {project.name}
+          <strong>Name:</strong> {task.name}
         </p>
 
         <p>
-          <strong>Description:</strong> {project.description}
+          <strong>Description:</strong> {task.description}
+        </p>
+        <p>
+          <strong>Status:</strong> {task.status}
         </p>
 
         <p>
-          <strong>Date:</strong> {project.created?.string}
+          <strong>Due Date:</strong> {task.due_date}
+        </p>
+        <p>
+          <strong>Project Name:</strong> {task.project.name}
+        </p>
+
+        <p>
+          <strong>Assigned to:</strong> {task.assigned_to.name}
+        </p>
+
+        <p>
+          <strong>Assigned to :</strong> {task.assigned_to.email.name}
+        </p>
+
+        <p>
+          <strong>Created by:</strong> {task.created.human}
+        </p>
+
+        <p>
+          <strong>Project Name:</strong> {task.project.name}
         </p>
       </div>
 
-      <Link className="button is-warning" href={`/projects/${project.id}/edit`}>
+      <Link className="button is-warning" href={`/tasks/${task.id}/edit`}>
         Edit
       </Link>
 
-      <Link className="button is-light ml-2" href="/projects">
+      <Link className="button is-light ml-2" href="/tasks">
         Back
       </Link>
     </>

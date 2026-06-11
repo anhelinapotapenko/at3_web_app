@@ -1,15 +1,15 @@
-// projects/[id]/edit/page.js
+// tasks/[id]/edit/page.js
 
-import ProjectForm from "../../../components/ProjectForm";
+import TaskForm from "../../../components/TaskForm";
 
-export default async function EditProjectPage({ params }) {
+export default async function EditTaskPage({ params }) {
   const { id } = await params;
 
   return (
     <>
-      <h1 className="title">Edit Project</h1>
+      <h1 className="title">Edit Task</h1>
 
-      <ProjectForm projectId={id} />
+      <TaskForm taskId={id} />
     </>
   );
 }
