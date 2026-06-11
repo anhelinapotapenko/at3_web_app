@@ -1,4 +1,4 @@
-// app/components/ProjectForm.js
+// app/components/TaskForm.js
 
 "use client";
 
@@ -24,15 +24,15 @@ const headers = {
   "Workspaces-Identifier": "tenant-pm-009",
 };
 
-// reusable project form component, used for Create and Edit pages
-export default function ProjectForm({ projectId }) {
+// reusable task form component, used for Create and Edit pages
+export default function TaskForm({ taskId }) {
   // router used to redirect after save
   const router = useRouter();
 
-  // store project name
+  // store task name
   const [name, setName] = useState("");
 
-  // store project description
+  // store task description
   const [description, setDescription] = useState("");
 
   // store error messages
@@ -41,35 +41,35 @@ export default function ProjectForm({ projectId }) {
   // store success message
   const [success, setSuccess] = useState("");
 
-  // load project data when editing
+  // load taskdata when editing
   useEffect(() => {
-    async function getProject() {
-      // stop if creating a new project
-      if (!projectId) {
+    async function getTask() {
+      // stop if creating a new task
+      if (!taskId) {
         return;
       }
 
-      // fetch all projects from API
-      const response = await fetch(`${BASE_URL}/projects`, {
+      // fetch all tasks from API
+      const response = await fetch(`${BASE_URL}/task`, {
         method: "GET",
         headers: headers,
       });
 
       // convert json  into js
-      const projects = await response.json();
+      const tasks = await response.json();
 
-      // find the selected project by id from the URL
-      const project = projects.find((project) => project.id === projectId);
+      // find the selected taskt by id from the URL
+      const task = tasks.find((task) => task.id === taskId);
 
       // pre filled form
-      if (project) {
-        setName(project.name || "");
-        setDescription(project.description || "");
+      if (task) {
+        setName(task.name || "");
+        setDescription(ptask.description || "");
       }
     }
 
-    getProject();
-  }, [projectId]);
+    getTask();
+  }, [taskId]);
 
   // run when the user submits the form
   const handleSubmit = async (event) => {
@@ -81,29 +81,27 @@ export default function ProjectForm({ projectId }) {
     // success mesage
     setSuccess("");
 
-    // validate project name
+    // validate task name
     if (name.trim() === "") {
-      setError("Add project name");
+      setError("Add task name");
       return;
     }
 
     // validate description
     if (description.trim() === "") {
-      setError("Add project description");
+      setError("Add task description");
       return;
     }
 
     // choose API endpoint
-    // Edit → /projects/id
-    // Create → /projects
-    const url = projectId
-      ? `${BASE_URL}/projects/${projectId}`
-      : `${BASE_URL}/projects`;
+    // Edit → /tasks/id
+    // Create → /tasks
+    const url = taskId ? `${BASE_URL}/tasks/${taskId}` : `${BASE_URL}/tasks`;
 
     // choose HTTP method
-    // PUT = update existing project
-    // POST = create new project
-    const method = projectId ? "PUT" : "POST";
+    // PUT = update existing task
+    // POST = create new task
+    const method = taskId ? "PUT" : "POST";
 
     // send data to API
     const response = await fetch(url, {
@@ -119,21 +117,21 @@ export default function ProjectForm({ projectId }) {
     if (response.ok) {
       // display success message
       setSuccess(
-        projectId
-          ? "Project was updated successfully!"
-          : "Project was created successfully!",
+        taskId
+          ? "Task was updated successfully!"
+          : "Task was created successfully!",
       );
-      // redirect back to projects page after 1.5 seconds
+      // redirect back to tasks page after 1.5 seconds
       setTimeout(() => {
-        router.push("/projects");
+        router.push("/tasks");
       }, 1500);
     } else {
       // convert error response into JavaScript
       const data = await response.json();
       // display error in console for testing
-      console.log("Project form error:", data);
+      console.log("Task form error:", data);
       // show error message on page
-      setError(data.message || "Project was not saved");
+      setError(data.message || "Task was not saved");
     }
   };
 
@@ -143,22 +141,22 @@ export default function ProjectForm({ projectId }) {
       {error && <p className="notification is-danger">{error}</p>}
       {/* success message */}
       {success && <p className="notification is-success">{success}</p>}
-      {/* project name field */}
+      {/* task name field */}
       <div className="field">
-        <label className="label">Enter Project Name</label>
+        <label className="label">Enter Task Name</label>
 
         <div className="control">
           <input
             className="input"
             type="text"
-            placeholder="Enter project name"
+            placeholder="Enter taskname"
             value={name}
             onChange={(event) => setName(event.target.value)}
           />
         </div>
       </div>
 
-      {/* project description field */}
+      {/* taskdescription field */}
       <div className="field">
         <label className="label">Description</label>
 
@@ -173,16 +171,16 @@ export default function ProjectForm({ projectId }) {
       {/* save button */}
       <button className="button is-primary" type="submit">
         {/* button text changes depending on mode */}
-        {projectId ? "Update Project" : "Create Project"}
+        {taskId ? "Update Task" : "Create Task"}
       </button>
 
       {/* spacing */}
       <br />
       <br />
 
-      {/* return to projects page */}
-      <Link href="/projects" className="button is-link ml-2">
-        Go to Project Page
+      {/* return to tasks page */}
+      <Link href="/tasks" className="button is-link ml-2">
+        Go to Task Page
       </Link>
     </form>
   );
