@@ -13,18 +13,18 @@ const headers = {
 };
 
 export default async function TaskDetailsPage({ params }) {
-  // get the project id from the url
+  // get the task id from the url
   const { id } = await params;
-  // fetch all projects from the API
+  // fetch all tasks from the API
   const response = await fetch(`${BASE_URL}/tasks`, {
     headers,
     cache: "no-store",
   });
   // convert json response into js
   const tasks = await response.json();
-  // find the project by id in url
+  // find the task by id in url
   const task = tasks.find((task) => task.id === id);
-  // display error if the project cannot be found
+  // display error if the task cannot be found
   if (!task) {
     return (
       <>

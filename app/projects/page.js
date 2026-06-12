@@ -75,6 +75,7 @@ export default function ProjectsPage() {
           <p>
             <strong>Description:</strong> {project.description}
           </p>
+
           <br></br>
           <Link href={`/projects/${project.id}`} className="button is-primary">
             View

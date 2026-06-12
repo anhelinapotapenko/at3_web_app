@@ -35,6 +35,9 @@ export default function ProjectForm({ projectId }) {
   // store project description
   const [description, setDescription] = useState("");
 
+  // to store project data
+  const [tasks, setTasks] = useState([]);
+
   // store error messages
   const [error, setError] = useState("");
 
@@ -69,6 +72,29 @@ export default function ProjectForm({ projectId }) {
     }
 
     getProject();
+  }, [projectId]);
+
+  useEffect(() => {
+    async function getProjectTasks() {
+      if (!projectId) {
+        return;
+      }
+
+      const response = await fetch(`${BASE_URL}/tasks`, {
+        method: "GET",
+        headers,
+      });
+
+      const data = await response.json();
+
+      const projectTasks = data.filter(
+        (task) => task.project?.id === projectId,
+      );
+
+      setTasks(projectTasks);
+    }
+
+    getProjectTasks();
   }, [projectId]);
 
   // run when the user submits the form
@@ -157,7 +183,6 @@ export default function ProjectForm({ projectId }) {
           />
         </div>
       </div>
-
       {/* project description field */}
       <div className="field">
         <label className="label">Description</label>
@@ -169,17 +194,41 @@ export default function ProjectForm({ projectId }) {
           onChange={(event) => setDescription(event.target.value)}
         ></textarea>
       </div>
+      {/* to show tasks in project */}
+      {projectId && (
+        <div className="box">
+          <h2 className="title is-5">Tasks in this Project</h2>
 
+          {tasks.length === 0 && <p>No tasks found for this project.</p>}
+
+          {tasks.map((task) => (
+            <div key={task.id} className="notification is-light">
+              <p>
+                <strong>Task:</strong> {task.name}
+              </p>
+
+              <p>
+                <strong>Status:</strong> {task.status}
+              </p>
+
+              <Link
+                href={`/tasks/${task.id}`}
+                className="button is-small is-info"
+              >
+                View Task
+              </Link>
+            </div>
+          ))}
+        </div>
+      )}
       {/* save button */}
       <button className="button is-primary" type="submit">
         {/* button text changes depending on mode */}
         {projectId ? "Update Project" : "Create Project"}
       </button>
-
       {/* spacing */}
       <br />
       <br />
-
       {/* return to projects page */}
       <Link href="/projects" className="button is-link ml-2">
         Go to Project Page
