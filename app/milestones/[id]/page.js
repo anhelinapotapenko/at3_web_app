@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 
-const BASE_URL = process.env.API_BASE_URL;
+const BASE_URL = "https://myjamjar.com.au/v1";
 
 const headers = {
-  Authorization: `Bearer ${process.env.API_TOKEN}`,
+  Authorization: "Bearer 199|RogHafvvGeA4TT1m44WB5wyy57WGxYRWQ1jNSW0t8acb118b",
   Accept: "application/json",
   "Content-Type": "application/json",
   "X-Integration-Name": "NMT-204782",
