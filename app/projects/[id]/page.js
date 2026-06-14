@@ -49,9 +49,7 @@ export default async function ProjectDetailsPage({ params }) {
         <p>
           <strong>Name:</strong> {project.name}
         </p>
-        <p>
-          <strong>Name:</strong> {task.name}
-        </p>
+
         <p>
           <strong>Description:</strong> {project.description}
         </p>
