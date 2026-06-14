@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 
-const BASE_URL = process.env.API_BASE_URL;
+const BASE_URL = "https://myjamjar.com.au/v1";
 
 const headers = {
-  Authorization: `Bearer ${process.env.API_TOKEN}`,
+  Authorization: "Bearer 199|RogHafvvGeA4TT1m44WB5wyy57WGxYRWQ1jNSW0t8acb118b",
   Accept: "application/json",
   "Content-Type": "application/json",
   "X-Integration-Name": "NMT-204782",
@@ -16,13 +16,27 @@ export default async function ChecklistDetailsPage({ params }) {
   const { id } = await params;
 
   const response = await fetch(`${BASE_URL}/checklist-items`, {
-    headers,
+    method: "GET",
+    headers: headers,
     cache: "no-store",
   });
 
+  if (!response.ok) {
+    return (
+      <>
+        <h1 className="title">Checklist API error</h1>
+        <p>Could not load checklist details.</p>
+
+        <Link className="button is-light" href="/checklists">
+          Back
+        </Link>
+      </>
+    );
+  }
+
   const data = await response.json();
 
-  const checklists = Array.isArray(data) ? data : [];
+  const checklists = Array.isArray(data) ? data : data.data || [];
 
   const checklist = checklists.find((checklist) => checklist.id === id);
 
@@ -56,7 +70,7 @@ export default async function ChecklistDetailsPage({ params }) {
         </p>
 
         <p>
-          <strong>Task ID:</strong> {checklist.task_id}
+          <strong>Task ID:</strong> {checklist.task_id || "No task"}
         </p>
       </div>
 
