@@ -134,8 +134,24 @@ The system allows users to create, view, edit, and delete project management dat
 - GitHub Classroom
 - GitHub Actions
 - Vercel
+- ChatGPT
 
 ---
+
+## Use of AI
+
+ChatGPT was used to:
+
+- Explain Next.js concepts and App Router structure.
+- Provide guidance on implementing CRUD functionality.
+- Assist with understanding API responses and data structures.
+- Help troubleshoot coding errors and debug issues.
+- Explain React concepts such as state management, hooks, and form handling.
+- Suggest approaches for validation, error handling, and user feedback.
+- Provide examples of README structure and documentation formatting.
+- Support understanding of Git, GitHub, and deployment processes.
+
+Link to chat: https://chatgpt.com/share/6a2e74a3-34a4-83ec-99d3-7fd678ace105
 
 ## Features
 
@@ -340,7 +356,7 @@ npm start
 
 The application was deployed using Vercel.
 
-Deployment URL:
+Deployment URL: https://at3-web-app.vercel.app/
 
 (Add your Vercel URL here)
 
