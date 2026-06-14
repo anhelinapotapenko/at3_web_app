@@ -130,9 +130,7 @@ export default function ChecklistForm({ checklistId }) {
       ? `${BASE_URL}/checklist-items/${checklistId}`
       : `${BASE_URL}/checklist-items`;
 
-    // choose HTTP method
-    // PUT = update existing checklist
-    // POST = create new checklist
+    // choose HTTP method put/post
     const method = checklistId ? "PUT" : "POST";
 
     // send data to API
