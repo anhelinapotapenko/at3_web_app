@@ -16,8 +16,6 @@ export default function ApodDetailsPage() {
 
   useEffect(() => {
     if (!date) {
-      setApodData(null);
-      setError("");
       return;
     }
 
@@ -27,7 +25,7 @@ export default function ApodDetailsPage() {
         setError("");
 
         const response = await fetch(
-          `https://api.nasa.gov/planetary/apod?api_key=${API_KEY}&date=${date}`
+          `https://api.nasa.gov/planetary/apod?api_key=${API_KEY}&date=${date}`,
         );
 
         if (!response.ok) {
