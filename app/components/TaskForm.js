@@ -64,6 +64,9 @@ export default function TaskForm({ taskId }) {
         headers: headers,
       });
 
+      // convert json into js
+      const task = await response.json();
+
       // pre filled form
       if (task && !task.message) {
         setName(task.name || "");
@@ -88,9 +91,7 @@ export default function TaskForm({ taskId }) {
         method: "GET",
         headers: headers,
       });
-
-      // convert json into js
-      const data = await response.json();
+      const task = await response.json();
 
       // check if API returned an array : use an emoty array to avoid map errors
       setProjects(Array.isArray(data) ? data : []);
