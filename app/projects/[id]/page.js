@@ -16,15 +16,15 @@ export default async function ProjectDetailsPage({ params }) {
   // get the project id from the url
   const { id } = await params;
   // fetch all projects from the API
-  const response = await fetch(`${BASE_URL}/projects`, {
+  const response = await fetch(`${BASE_URL}/projects/${id}`, {
     headers,
     cache: "no-store",
   });
+  // convert json response into js
+  const project = await response.json();
 
-  // find the project by id in url
-  const project = projects.find((project) => project.id === id);
   // display error if the project cannot be found
-  if (!project) {
+  if (!project || project.message) {
     return (
       <>
         <h1 className="title">Project not found</h1>
