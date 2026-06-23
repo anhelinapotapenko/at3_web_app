@@ -59,16 +59,13 @@ export default function TaskForm({ taskId }) {
       }
 
       // fetch all tasks from API
-      const response = await fetch(`${BASE_URL}/tasks`, {
+      const response = await fetch(`${BASE_URL}/tasks/${taskId}`, {
         method: "GET",
         headers: headers,
       });
 
-      // find the selected task by id from the URL
-      const task = tasks.find((task) => task.id === taskId);
-
       // pre filled form
-      if (task) {
+      if (task && !task.message) {
         setName(task.name || "");
         setDescription(task.description || "");
 
