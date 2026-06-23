@@ -64,9 +64,6 @@ export default function TaskForm({ taskId }) {
         headers: headers,
       });
 
-      // convert json into js
-      const tasks = await response.json();
-
       // find the selected task by id from the URL
       const task = tasks.find((task) => task.id === taskId);
 

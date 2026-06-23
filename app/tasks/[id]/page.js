@@ -16,16 +16,15 @@ export default async function TaskDetailsPage({ params }) {
   // get the task id from the url
   const { id } = await params;
   // fetch all tasks from the API
-  const response = await fetch(`${BASE_URL}/tasks`, {
+  const response = await fetch(`${BASE_URL}/tasks/${id}`, {
     headers,
     cache: "no-store",
   });
   // convert json response into js
-  const tasks = await response.json();
-  // find the task by id in url
-  const task = tasks.find((task) => task.id === id);
+  const task = await response.json();
+
   // display error if the task cannot be found
-  if (!task) {
+  if (!task || task.message) {
     return (
       <>
         <h1 className="title">Task not found</h1>
