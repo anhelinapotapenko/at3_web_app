@@ -92,8 +92,8 @@ export default function TaskForm({ taskId }) {
       // convert json into js
       const data = await response.json();
 
-      // save projects into state
-      setProjects(data);
+      // check if API returned an array : use an emoty array to avoid map errors
+      setProjects(Array.isArray(data) ? data : []);
     }
 
     getProjects();
