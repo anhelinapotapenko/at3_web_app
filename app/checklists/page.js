@@ -36,9 +36,6 @@ export default function ChecklistsPage() {
       // convert JSON response into JavaScript
       const data = await response.json();
 
-      // display data in console for testing
-      console.log(data);
-
       // save checklist items into state
       setChecklists(Array.isArray(data) ? data : []);
     }

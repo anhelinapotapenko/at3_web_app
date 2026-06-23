@@ -65,11 +65,13 @@ export default async function TaskDetailsPage({ params }) {
         </p>
 
         <p>
-          <strong>Assigned to:</strong> {task.assigned_to.name}
+          <strong>Assigned to:</strong>{" "}
+          {task.assigned_to?.name || "No assigned user"}
         </p>
 
         <p>
-          <strong>Assigned to :</strong> {task.assigned_to.email.name}
+          <strong>Assigned Email:</strong>{" "}
+          {task.assigned_to?.email?.address || "No email"}
         </p>
 
         <p>
@@ -77,7 +79,7 @@ export default async function TaskDetailsPage({ params }) {
         </p>
 
         <p>
-          <strong>Project Name:</strong> {task.project.name}
+          <strong>Project Name:</strong> {task.project?.name || "No project"}
         </p>
       </div>
 
