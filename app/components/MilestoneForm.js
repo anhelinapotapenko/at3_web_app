@@ -43,19 +43,15 @@ export default function MilestoneForm({ milestoneId }) {
       if (!milestoneId) {
         return;
       }
-
-      const response = await fetch(`${BASE_URL}/milestones`, {
+      // fetch one milestone from API by id
+      const response = await fetch(`${BASE_URL}/milestones/${milestoneId}`, {
         method: "GET",
         headers,
       });
 
-      const milestones = await response.json();
+      const milestone = await response.json();
 
-      const milestone = milestones.find(
-        (milestone) => milestone.id === milestoneId,
-      );
-
-      if (milestone) {
+      if (milestone && !milestone.message) {
         setTitle(milestone.title || "");
         setDescription(milestone.description || "");
         setDueDate(milestone.due_date || "");
@@ -76,7 +72,7 @@ export default function MilestoneForm({ milestoneId }) {
 
       const data = await response.json();
 
-      setProjects(data);
+      setProjects(Array.isArray(data) ? data : []);
     }
 
     getProjects();
