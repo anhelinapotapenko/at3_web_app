@@ -24,6 +24,8 @@ export default function MilestonesPage() {
         method: "GET",
         headers: headers,
       });
+      // convert json response into js
+      const data = await response.json();
 
       setMilestones(data);
     }

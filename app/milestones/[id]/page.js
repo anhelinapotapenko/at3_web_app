@@ -16,16 +16,15 @@ export default async function MilestoneDetailsPage({ params }) {
   // get the milestone id from the url
   const { id } = await params;
   // fetch all milestones from the API
-  const response = await fetch(`${BASE_URL}/milestones`, {
+  const response = await fetch(`${BASE_URL}/milestones/${id}`, {
     headers,
     cache: "no-store",
   });
   // convert json response into js
-  const milestones = await response.json();
-  // find the milestone by id in url
-  const milestone = milestones.find((milestone) => milestone.id === id);
+  const milestone = await response.json();
+
   // display error if the milestone cannot be found
-  if (!milestone) {
+  if (!milestone || milestone.message) {
     return (
       <>
         <h1 className="title">Milestone not found</h1>
