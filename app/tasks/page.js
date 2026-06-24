@@ -71,7 +71,7 @@ export default function TasksPage() {
             <strong>Name:</strong> {task.name}
           </p>
           <p>
-            <strong>Project Name:</strong> {task.project.name}
+            <strong>Project Name:</strong> {task.project?.name || "No project"}
           </p>
           <p>
             <strong>Description:</strong> {task.description}
